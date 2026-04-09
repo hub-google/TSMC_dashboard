@@ -1,5 +1,6 @@
 node_modules/
 dist/
+已無用/
 .DS_Store
 *.xlsx
 # We don't ignore the xlsx in the public folder specifically if it's there

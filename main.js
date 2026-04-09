@@ -42,6 +42,7 @@ async function loadData() {
 
         if (joinSheet) processSlide1(joinSheet);
         if (respSheet) processSlide2(respSheet);
+        if (joinSheet && respSheet) processSlide3(joinSheet, respSheet);
         
     } catch (error) {
         console.error('Data Load Error:', error);
@@ -239,6 +240,86 @@ function processSlide2(sheet) {
             </td>
         `;
         tableBody.appendChild(tr);
+    });
+}
+
+function processSlide3(joinSheet, respSheet) {
+    const joinData = XLSX.utils.sheet_to_json(joinSheet, { range: 1 });
+    const respData = XLSX.utils.sheet_to_json(respSheet).filter(r => r['非測試'] === '非測試');
+
+    const getMonthStr = (val) => {
+        let d;
+        if (typeof val === 'number') d = new Date((val - 25569) * 86400 * 1000);
+        else d = new Date(val);
+        if (isNaN(d.getTime())) return null;
+        return `${d.getFullYear()}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
+    };
+
+    // 1. 加入好友數 (依月份)
+    const joinByMonth = {};
+    joinData.forEach(r => {
+        const m = getMonthStr(r['加入LINE OA日期']);
+        if (m) {
+            joinByMonth[m] = (joinByMonth[m] || 0) + parseNum(r['總加入人數']);
+        }
+    });
+    const joinMonths = Object.keys(joinByMonth).sort();
+    renderChart('friendMonthChart', 'bar', joinMonths, [{
+        label: '每月加入人數',
+        data: joinMonths.map(m => joinByMonth[m]),
+        backgroundColor: '#3182ce', // Lighter corporate blue for better contrast
+        borderRadius: 5
+    }], { scales: { y: { beginAtZero: true } } });
+
+    // 2. 預約顧問人數 (依月份)
+    const bookingByMonth = {};
+    const bookingUniqueMonths = {}; // To store unique UUIDs per month
+    respData.forEach(r => {
+        const m = getMonthStr(r['預約時間']);
+        if (m && r.CUSTOMER_UUID) {
+            if (!bookingUniqueMonths[m]) bookingUniqueMonths[m] = new Set();
+            bookingUniqueMonths[m].add(r.CUSTOMER_UUID);
+        }
+    });
+    const bookingMonths = Object.keys(bookingUniqueMonths).sort();
+    renderChart('bookingMonthChart', 'bar', bookingMonths, [{
+        label: '每月預約人數',
+        data: bookingMonths.map(m => bookingUniqueMonths[m].size),
+        backgroundColor: COLORS.friends,
+        borderRadius: 5
+    }], { scales: { y: { beginAtZero: true } } });
+
+    // 3. 駐廠回覆率 (依月份)
+    const respRateByMonth = {};
+    respData.filter(r => parseNum(r['應回覆']) === 1).forEach(r => {
+        const m = getMonthStr(r['預約時間']);
+        if (m) {
+            if (!respRateByMonth[m]) respRateByMonth[m] = { total: 0, ok: 0 };
+            respRateByMonth[m].total++;
+            // 只要有回覆就算 (使用已回覆欄位)
+            if (parseNum(r['已回覆']) === 1) respRateByMonth[m].ok++;
+        }
+    });
+    const rateMonths = Object.keys(respRateByMonth).sort();
+    renderChart('responseRateMonthChart', 'line', rateMonths, [{
+        label: '駐廠回覆率 (%)',
+        data: rateMonths.map(m => Math.round((respRateByMonth[m].ok / respRateByMonth[m].total) * 100)),
+        borderColor: COLORS.progress,
+        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: COLORS.progress
+    }], { 
+        scales: { 
+            y: { 
+                beginAtZero: false, 
+                max: 100,
+                ticks: {
+                    callback: (val) => val + '%'
+                }
+            } 
+        } 
     });
 }
 

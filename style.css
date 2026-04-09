@@ -77,5 +77,39 @@ td { padding: 15px; border: 1.5px solid #edf2f7; text-align: center; font-size: 
 
 .slide-footer { margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; display: flex; justify-content: space-between; font-weight: 700; }
 
+
+/* Slide 3 Specifics */
+.content-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.chart-card {
+    padding: 20px;
+    background: #fff;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 5px solid var(--orange-progress);
+}
+
+.trend-chart-container {
+    flex: 1;
+    width: 100%;
+    position: relative;
+    min-height: 300px;
+}
+
 .floating-controls { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
 #refresh-btn { padding: 15px 30px; background: #000; color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }

@@ -76,11 +76,40 @@
                 </div>
             </div>
             <footer class="slide-footer">
+                <div class="logo-placeholder"><span>凱基人壽</span></div>
+            </footer>
+        </div>
+        <div class="slide slide-3">
+            <header class="slide-header">
+                <h1>台積電LINE OA推動：數據趨勢分析</h1>
+            </header>
+            <div class="content-grid-3">
+                <div class="panel-card chart-card">
+                    <div class="chart-title">加入好友數 (依月份)</div>
+                    <div class="trend-chart-container">
+                        <canvas id="friendMonthChart"></canvas>
+                    </div>
+                </div>
+                <div class="panel-card chart-card">
+                    <div class="chart-title">預約顧問人數 (依月份)</div>
+                    <div class="trend-chart-container">
+                        <canvas id="bookingMonthChart"></canvas>
+                    </div>
+                </div>
+                <div class="panel-card chart-card">
+                    <div class="chart-title">駐廠回覆率 (依月份)</div>
+                    <div class="trend-chart-container">
+                        <canvas id="responseRateMonthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <footer class="slide-footer">
                 <div class="update-info">資料更新時間：<span id="update-ts">讀取中...</span></div>
                 <div class="logo-placeholder"><span>凱基人壽</span></div>
             </footer>
         </div>
     </div>
+
     <div class="floating-controls"><button id="refresh-btn">🔄 重新整理資料</button></div>
     <script type="module" src="main.js"></script>
 </body>
