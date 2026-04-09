@@ -176,7 +176,7 @@ function processSlide2(sheet) {
     const uniqueCustomers = new Set(data.filter(r => r.CUSTOMER_UUID).map(r => r.CUSTOMER_UUID)).size;
     const globalTargetRows = data.filter(r => parseNum(r['應回覆']) === 1);
     const globalSolvedRows = globalTargetRows.filter(r => parseNum(r['已回覆']) === 1);
-    const overallRate = globalTargetRows.length > 0 ? (globalTargetRows.filter(r => parseNum(r['三天內回覆']) === 1).length / globalTargetRows.length) * 100 : 0;
+    const overallRate = globalTargetRows.length > 0 ? (globalTargetRows.filter(r => parseNum(r['已回覆']) === 1).length / globalTargetRows.length) * 100 : 0;
     const globalAvgDays = globalSolvedRows.length > 0 ? globalSolvedRows.reduce((s, r) => s + parseNum(r['回覆天數']), 0) / globalSolvedRows.length : 0;
 
     document.getElementById('total-reservations').innerText = uniqueCustomers.toLocaleString();
