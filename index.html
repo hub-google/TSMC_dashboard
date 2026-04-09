@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台積電LINE OA推動儀表板</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Fixed Corporate Header Bar -->
+    <div class="corporate-header-bar">
+        <div class="bar-blue"></div>
+        <div class="bar-yellow"></div>
+        <div class="bar-orange"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- Slide 1 -->
+        <div class="slide slide-1">
+            <header class="slide-header">
+                <h1>台積電LINE OA推動</h1>
+                <div class="subtitle">
+                    <span class="bullet">■</span> 初期使用者多由HR公告連結加入，後續由好友推薦加入者為主
+                </div>
+            </header>
+            <div class="content-grid-1">
+                <div class="panel-card left-panel">
+                    <div class="large-kpi">
+                        <div class="kpi-label">累積總加入人數</div>
+                        <div class="kpi-value" id="total-joins-large">載入中...</div>
+                    </div>
+                    <div class="donut-chart-container">
+                        <canvas id="joinDonutChart"></canvas>
+                    </div>
+                    <div class="footnote">註：部分用戶透過多重管道觸及，故加總會超過加入人數。</div>
+                </div>
+                <div class="panel-card right-panel">
+                    <div class="area-chart-container">
+                        <canvas id="joinAreaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide slide-2">
+            <header class="slide-header" style="border-bottom: 2px solid #333;">
+                <h1>台積電LINE OA推動</h1>
+            </header>
+            <div class="content-grid-2">
+                <div class="sidebar">
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">總預約客戶數</div>
+                        <div class="sidebar-value" id="total-reservations">0</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">整體回覆率</div>
+                        <div class="sidebar-value" id="overall-resp-rate">0%</div>
+                    </div>
+                    <div class="sidebar-item" style="border: none;">
+                        <div class="sidebar-label">平均回覆天數</div>
+                        <div class="sidebar-value" id="avg-resp-days-sidebar">0天</div>
+                    </div>
+                </div>
+                <div class="main-table-area">
+                    <table id="efficiency-table">
+                        <thead>
+                            <tr>
+                                <th>廠區</th><th>通訊處</th><th>預約客戶數</th><th>平均回覆天數</th><th>三天內回覆率</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            <footer class="slide-footer">
+                <div class="update-info">資料更新時間：<span id="update-ts">讀取中...</span></div>
+                <div class="logo-placeholder"><span>凱基人壽</span></div>
+            </footer>
+        </div>
+    </div>
+    
+    <div class="floating-controls"><button id="refresh-btn">🔄 重新整理資料</button></div>
+    <script src="main.js"></script>
+</body>
+</html>

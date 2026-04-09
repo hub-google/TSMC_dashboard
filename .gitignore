@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.DS_Store
+*.xlsx
+# We don't ignore the xlsx in the public folder specifically if it's there
+!public/LINE OA 加入資料_分析結果.xlsx
