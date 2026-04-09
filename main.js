@@ -53,6 +53,14 @@ function processSlide1(sheet) {
     const allData = XLSX.utils.sheet_to_json(sheet, { range: 1 });
     const dailyData = allData.filter(row => row['加入LINE OA日期'] && typeof row['加入LINE OA日期'] === 'number');
 
+    if (dailyData.length > 0) {
+        const maxSerial = Math.max(...dailyData.map(r => r['加入LINE OA日期']));
+        const maxDate = new Date((maxSerial - 25569) * 86400 * 1000);
+        const dateStr = maxDate.getFullYear() + '/' + String(maxDate.getMonth()+1).padStart(2, '0') + '/' + String(maxDate.getDate()).padStart(2, '0');
+        const statEl = document.getElementById('slide1-date-stat');
+        if (statEl) statEl.innerText = '統計至: ' + dateStr;
+    }
+
     const totalJoins = dailyData.reduce((s, r) => s + parseNum(r['總加入人數']), 0);
     document.getElementById('total-joins-large').innerText = totalJoins.toLocaleString();
 
