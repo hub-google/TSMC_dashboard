@@ -25,8 +25,11 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm run build
-        shell: cmd
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp index.html main.js style.css dist/
+          cp -r public/* dist/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
