@@ -29,7 +29,7 @@ const parseNum = (val) => {
 
 async function loadData() {
     try {
-        const response = await fetch(EXCEL_FILE_PATH);
+        const response = await fetch(EXCEL_FILE_PATH + '?t=' + new Date().getTime());
         const arrayBuffer = await response.arrayBuffer();
         const data = new Uint8Array(arrayBuffer);
         const workbook = XLSX.read(data, { type: 'array' });
