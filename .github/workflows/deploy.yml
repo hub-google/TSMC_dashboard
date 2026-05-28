@@ -4,6 +4,8 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # 每天 UTC 時間 00:00 (台灣時間早上 8:00) 自動更新
 
 permissions:
   contents: write
@@ -23,6 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Download latest data from Google Drive
+        shell: bash
+        run: |
+          mkdir -p public
+          curl -L "https://docs.google.com/spreadsheets/d/1C03_PNRWmS3vO-2nz2cFO9QW1k4EDD-W/export?format=xlsx" -o "public/LINE OA 加入資料_分析結果.xlsx"
 
       - name: Build project
         shell: bash
