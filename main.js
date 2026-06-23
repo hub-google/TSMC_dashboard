@@ -39,12 +39,10 @@ async function loadData() {
 
         const joinSheet = workbook.Sheets['各管道每日加入人數'];
         const respSheet = workbook.Sheets['回覆時程'];
-        const surveySheet = workbook.Sheets['預約項目'];
 
         if (joinSheet) processSlide1(joinSheet);
         if (respSheet) processSlide2(respSheet);
         if (joinSheet && respSheet) processSlide3(joinSheet, respSheet);
-        if (surveySheet) processSurveyData(surveySheet);
         
     } catch (error) {
         console.error('Data Load Error:', error);
@@ -180,7 +178,7 @@ function processSlide1(sheet) {
 }
 
 function processSlide2(sheet) {
-    const data = XLSX.utils.sheet_to_json(sheet);
+    const data = XLSX.utils.sheet_to_json(sheet).filter(r => r.CUSTOMER_UUID);
     
     // Global Header Stats
     const uniqueCustomers = new Set(data.filter(r => r.CUSTOMER_UUID).map(r => r.CUSTOMER_UUID)).size;
@@ -255,7 +253,7 @@ function processSlide2(sheet) {
 
 function processSlide3(joinSheet, respSheet) {
     const joinData = XLSX.utils.sheet_to_json(joinSheet, { range: 1 });
-    const respData = XLSX.utils.sheet_to_json(respSheet);
+    const respData = XLSX.utils.sheet_to_json(respSheet).filter(r => r.CUSTOMER_UUID);
 
     const getMonthStr = (val) => {
         let d;
@@ -330,37 +328,6 @@ function processSlide3(joinSheet, respSheet) {
                 }
             } 
         } 
-    });
-}
-
-function processSurveyData(sheet) {
-    const data = XLSX.utils.sheet_to_json(sheet);
-    const surveyCounts = {};
-    data.forEach(row => {
-        const item = row['SURVEY_01'];
-        const uuid = row['CUSTOMER_UUID'];
-        if (item && uuid) {
-            if (!surveyCounts[item]) {
-                surveyCounts[item] = new Set();
-            }
-            surveyCounts[item].add(uuid);
-        }
-    });
-
-    const items = Object.keys(surveyCounts).sort((a, b) => surveyCounts[b].size - surveyCounts[a].size);
-    const counts = items.map(item => surveyCounts[item].size);
-
-    renderChart('surveyChart', 'bar', items, [{
-        label: '預約客戶數',
-        data: counts,
-        backgroundColor: COLORS.sidebar,
-        borderRadius: 5
-    }], { 
-        indexAxis: 'y',
-        scales: { x: { beginAtZero: true } },
-        plugins: {
-            legend: { display: false }
-        }
     });
 }
 
