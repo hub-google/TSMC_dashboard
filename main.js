@@ -178,7 +178,7 @@ function processSlide1(sheet) {
 }
 
 function processSlide2(sheet) {
-    const data = XLSX.utils.sheet_to_json(sheet).filter(r => r['非測試'] === '非測試');
+    const data = XLSX.utils.sheet_to_json(sheet).filter(r => r['非測試'] !== '測試');
     
     // Global Header Stats
     const uniqueCustomers = new Set(data.filter(r => r.CUSTOMER_UUID).map(r => r.CUSTOMER_UUID)).size;
@@ -253,7 +253,7 @@ function processSlide2(sheet) {
 
 function processSlide3(joinSheet, respSheet) {
     const joinData = XLSX.utils.sheet_to_json(joinSheet, { range: 1 });
-    const respData = XLSX.utils.sheet_to_json(respSheet).filter(r => r['非測試'] === '非測試');
+    const respData = XLSX.utils.sheet_to_json(respSheet).filter(r => r['非測試'] !== '測試');
 
     const getMonthStr = (val) => {
         let d;
