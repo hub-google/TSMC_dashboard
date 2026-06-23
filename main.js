@@ -337,13 +337,16 @@ function processSurveyData(sheet) {
     const data = XLSX.utils.sheet_to_json(sheet);
     const surveyCounts = {};
     data.forEach(row => {
-        const item = row['SURVEY_01'];
+        const itemRaw = row['SURVEY_01'];
         const uuid = row['CUSTOMER_UUID'];
-        if (item && uuid) {
-            if (!surveyCounts[item]) {
-                surveyCounts[item] = new Set();
-            }
-            surveyCounts[item].add(uuid);
+        if (itemRaw && uuid) {
+            const itemsList = itemRaw.toString().split(',').map(s => s.trim()).filter(s => s);
+            itemsList.forEach(item => {
+                if (!surveyCounts[item]) {
+                    surveyCounts[item] = new Set();
+                }
+                surveyCounts[item].add(uuid);
+            });
         }
     });
 
