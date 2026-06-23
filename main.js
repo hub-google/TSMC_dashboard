@@ -357,13 +357,24 @@ function processSurveyData(sheet) {
         label: '預約客戶數',
         data: counts,
         backgroundColor: COLORS.sidebar,
-        borderRadius: 5
+        borderRadius: 5,
+        datalabels: {
+            color: '#000000',
+            font: { weight: 'bold', size: 14 },
+            anchor: 'end',
+            align: 'end',
+            offset: 4
+        }
     }], { 
         indexAxis: 'y',
-        scales: { x: { beginAtZero: true } },
+        scales: { 
+            x: { beginAtZero: true },
+            y: { ticks: { color: '#000000', font: { weight: 'bold', size: 13 } } }
+        },
         plugins: {
             legend: { display: false }
-        }
+        },
+        layout: { padding: { right: 40 } }
     });
 }
 
