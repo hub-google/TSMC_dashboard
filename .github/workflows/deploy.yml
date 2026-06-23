@@ -20,7 +20,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p public
-          curl -L "https://docs.google.com/spreadsheets/d/1C03_PNRWmS3vO-2nz2cFO9QW1k4EDD-W/export?format=xlsx" -o "public/LINE OA 加入資料_分析結果.xlsx"
+          curl -L "https://docs.google.com/spreadsheets/d/1C03_PNRWmS3vO-2nz2cFO9QW1k4EDD-W/export?format=xlsx" -o "public/data.xlsx"
 
       - name: Build project
         shell: bash
