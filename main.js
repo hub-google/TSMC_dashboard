@@ -1,5 +1,5 @@
 // Configuration (Format-Only Alignment - FINAL SAFE VERSION)
-const EXCEL_FILE_PATH = './data.xlsx';
+const EXCEL_FILE_PATH = './LINE OA 加入資料_分析結果.xlsx';
 const COLORS = {
     hr: '#0d325a',       // Deep Blue
     friends: '#d0af6b',  // Gold
