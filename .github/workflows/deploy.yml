@@ -4,6 +4,8 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
 
 permissions:
   contents: write
@@ -21,6 +23,12 @@ jobs:
         run: |
           mkdir -p public
           curl -L "https://docs.google.com/spreadsheets/d/1C03_PNRWmS3vO-2nz2cFO9QW1k4EDD-W/export?format=xlsx" -o "public/data.xlsx"
+
+      - name: Clean PII from Excel
+        shell: bash
+        run: |
+          npm install xlsx
+          node clean_data.js
 
       - name: Build project
         shell: bash
