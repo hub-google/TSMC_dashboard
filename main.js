@@ -77,26 +77,41 @@ function processSlide1(sheet) {
     renderChart('joinDonutChart', 'doughnut', names, [{
         data: counts,
         backgroundColor: [COLORS.hr, COLORS.friends, COLORS.cards],
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: '#ffffff',
         datalabels: {
-            color: '#1a202c',
-            anchor: 'end',
-            align: 'end',
-            offset: 12,
+            color: (ctx) => ctx.dataIndex === 0 ? '#ffffff' : '#1a202c',
+            anchor: 'center',
+            align: 'center',
             font: { size: 14, weight: '800' },
-            formatter: (val, ctx) => {
-                const name = ctx.chart.data.labels[ctx.dataIndex];
-                return `${name}\n(${val.toLocaleString()}人)\n${getPctStr(val)}`;
-            }
+            formatter: (val) => getPctStr(val)
         }
     }], {
         plugins: { 
-            legend: { display: false },
+            legend: { 
+                display: true, 
+                position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 18,
+                    font: { size: 13, weight: 'bold' },
+                    generateLabels: (chart) => {
+                        return names.map((name, i) => ({
+                            text: `${name} ${counts[i].toLocaleString()}人 (${getPctStr(counts[i])})`,
+                            fillStyle: [COLORS.hr, COLORS.friends, COLORS.cards][i],
+                            strokeStyle: '#ffffff',
+                            lineWidth: 0,
+                            hidden: false,
+                            index: i
+                        }));
+                    }
+                }
+            },
             datalabels: { display: true }
         },
-        layout: { padding: { left: 75, right: 75, top: 35, bottom: 35 } },
-        cutout: '58%'
+        layout: { padding: 10 },
+        cutout: '52%'
     });
 
     const labels = dailyData.map(row => {
