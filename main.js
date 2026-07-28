@@ -77,12 +77,13 @@ function processSlide1(sheet) {
     renderChart('joinDonutChart', 'doughnut', names, [{
         data: counts,
         backgroundColor: [COLORS.hr, COLORS.friends, COLORS.cards],
-        borderWidth: 0,
+        borderWidth: 3,
+        borderColor: '#ffffff',
         datalabels: {
             color: '#1a202c',
             anchor: 'end',
             align: 'end',
-            offset: 20,
+            offset: 12,
             font: { size: 14, weight: '800' },
             formatter: (val, ctx) => {
                 const name = ctx.chart.data.labels[ctx.dataIndex];
@@ -94,8 +95,8 @@ function processSlide1(sheet) {
             legend: { display: false },
             datalabels: { display: true }
         },
-        layout: { padding: { left: 80, right: 150, top: 20, bottom: 20 } },
-        cutout: '55%'
+        layout: { padding: { left: 75, right: 75, top: 35, bottom: 35 } },
+        cutout: '58%'
     });
 
     const labels = dailyData.map(row => {
