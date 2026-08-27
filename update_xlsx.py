@@ -1,6 +1,13 @@
 import subprocess
 import os
+import sys
 from datetime import datetime
+
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
 
 def trigger_cloud_update():
     # 確保不管從哪裡執行，工作目錄都在腳本所在的資料夾
